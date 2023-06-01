@@ -1,0 +1,10 @@
+.terminalBody {
+  background-color: black;
+  color: greenyellow;
+  padding: 1rem;
+  font-family: monospace;
+  margin: 0px;
+  padding: 0px;
+  height: 100vh;
+  overflow: hidden;
+}
