@@ -5,12 +5,14 @@ import "./App.css";
 import SignInButton from "./features/signinButton/SignInButton";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import TerminalComponent from "./features/terminal/terminal";
+import WelcomeLoader from "./features/welcomeLodaer/welcomeLoader";
 
 function App() {
   const [user] = useAuthState(auth);
   return (
     <div className="App">
       {!user ? <SignInButton /> : <TerminalComponent />}
+      {/* <WelcomeLoader/> */}
 
       {/* <Router>
         <Routes>
