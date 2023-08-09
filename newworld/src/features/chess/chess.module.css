@@ -1,14 +1,46 @@
-.chessBody{
-    background-color: black;
-    width: 100%;
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    
+.chessBody {
+  background-color: black;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.chessBoard {
+  width: 75%;
+  height: 100vh;
+  /* background-color: aqua;   */
+}
+.rightSection {
+  width: 25%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* background-color: rgb(204, 0, 255);   */
 }
 
+.rightSectionColour {
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  padding: 20px;
+  align-items: center;
+}
 
-.roomBoard{
-    color: white;
+.roomBoard {
+  color: white;
+}
+
+.rightSectionChat {
+  height: auto;
+  /* background-color: #3d3846; */
+  overflow-y: auto;
+  gap: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 10px;
+  border-radius: 20px;
+  min-height: 700px;
 }

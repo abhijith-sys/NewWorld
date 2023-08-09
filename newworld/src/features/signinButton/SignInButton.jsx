@@ -9,21 +9,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { GoogleAuthProvider, signInWithRedirect } from "firebase/auth";
 
 const SignInButton = () => {
-  // const navigate = useNavigate();
-  // const signInWithGoogle = async () => {
-  //   try {
-  //     const result = await signInWithPopup(auth, provider);
-  //     const token = result?.credential?.accessToken;
-  //     const userId = result?.user?.uid;
-  //     navigate("/terminal")
-  //     // Store the token and user ID in localStorage or your preferred storage method
 
-  //     // Navigate to the home page
-  //   } catch (error) {
-  //     console.error("Error occurred during sign in:", error);
-  //     // Handle the error as desired
-  //   }
-  // };
 
   const [user] = useAuthState(auth);
   const signInWithGoogle = () => {

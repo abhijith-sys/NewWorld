@@ -2,9 +2,11 @@ import React, { useRef, useEffect, useState } from "react";
 import { useThree, extend, useFrame } from "react-three-fiber";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import Tile from "./Tile";
+import * as THREE from 'three';
 extend({ OrbitControls });
 
-const Board = () => {
+const Board = (props) => {
+  const { color1, color2 } = props;
   const ref = useRef();
   const { camera, gl } = useThree();
   const [spacing, setSpacing] = useState(0.9);
@@ -23,7 +25,8 @@ const Board = () => {
   const [activePieceY, setActivePieceY] = useState(null);
   const [location, setLocation] = useState(postion);
   const currentMotion = useRef(postion);
-
+  const bulbLightRef = useRef();
+  const hemiLightRef = useRef();
   useEffect(() => {
     const controls = new OrbitControls(camera, gl.domElement);
     controls.enableDamping = true;
@@ -32,6 +35,23 @@ const Board = () => {
     camera.position.set(0, 0, 10);
 
     controls.update();
+
+
+
+
+
+    // const bulbLight = bulbLightRef.current;
+    // const hemiLight = hemiLightRef.current;
+
+    // // Set up the bulb light
+    // const bulbGeometry = new THREE.SphereGeometry(0.02, 16, 8);
+    // bulbLight.position.set(0, 2, 0);
+    // bulbLight.castShadow = true;
+    // bulbLight.add(new THREE.Mesh(bulbGeometry, new THREE.MeshStandardMaterial({ emissive: 0xffffee, emissiveIntensity: 1, color: 0x000000 })));
+
+    // // Set up the hemisphere light
+    // hemiLight.position.set(0, 1, 0);
+    
     return () => {
       controls.dispose();
     };
@@ -51,9 +71,13 @@ const Board = () => {
   const boardHeight = tileSize * rows;
 
   const setActiveTile = (x, y) => {
+    let position = [x, y];
+    props?.selection(position);
     setLocation({ ...location, tileX: x, tileY: y });
     currentMotion.current = { ...currentMotion.current, tileX: x, tileY: y };
     setActiveX(x);
+    props.x(x);
+    props.y(y);
     setActiveY(y);
   };
 
@@ -65,7 +89,7 @@ const Board = () => {
   };
 
   useEffect(() => {
-    console.log(currentMotion.current);
+    // console.log(currentMotion.current);
   }, [currentMotion.current]);
 
   const movePiece = (x, y) => {
@@ -76,7 +100,9 @@ const Board = () => {
       setActiveY(y);
     }
   };
-
+  const setCoordinate = (value) => {
+    props.selectedCordinate(value);
+  };
   const createTile = (x, y) => {
     const isActive = x === activeX && y === activeY;
     const pieceX = isActive ? activePieceX : x;
@@ -98,6 +124,9 @@ const Board = () => {
         pieceX={pieceX}
         pieceY={pieceY}
         changeLocation={currentMotion.current}
+        color1={color1}
+        color2={color2}
+        coordinate={setCoordinate}
       />
     );
   };
@@ -114,11 +143,20 @@ const Board = () => {
 
   return (
     <>
+
+<ambientLight intensity={0.2} />
+        <pointLight ref={bulbLightRef} intensity={1} distance={100} decay={2} color={0xffee88} />
+        <hemisphereLight ref={hemiLightRef} intensity={0.02} skyColor={0xddeeff} groundColor={0x0f0e0d} />
+
+
+
+
+
       <ambientLight intensity={0.5} />
       <pointLight position={[10, 10, 10]} />
-      <group ref={ref}>
+      <group ref={ref} rotation={[-3.15, 0, 0.0]} position={[0.29, -0.29, 0]}>
         {createBoard()}
-        <group
+        {/* <group
           position={[
             -boardWidth / 2 + tileSize / 2,
             -boardHeight / 2 + tileSize / 2,
@@ -132,7 +170,7 @@ const Board = () => {
             <boxBufferGeometry args={[0.8, 0.8, 0.8]} />
             <meshStandardMaterial color="blue" />
           </mesh>
-        </group>
+        </group> */}
       </group>
     </>
   );

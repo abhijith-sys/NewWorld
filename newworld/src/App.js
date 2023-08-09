@@ -11,7 +11,8 @@ function App() {
   const [user] = useAuthState(auth);
   return (
     <div className="App">
-      {!user ? <SignInButton /> : <TerminalComponent />}
+      {/* {!user ? <SignInButton /> : <TerminalComponent />} */}
+      <TerminalComponent />
       {/* <WelcomeLoader/> */}
 
       {/* <Router>

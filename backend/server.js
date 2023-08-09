@@ -1,6 +1,7 @@
 const express = require('express');
 const http = require('http');
 const { Server } = require('socket.io');
+const { Chess } = require('chess.js');
 
 const app = express();
 const httpServer = http.createServer(app);
@@ -31,3 +32,45 @@ io.listen(socketPort);
 
 require("./src/controller/socketController").connect(io);
 console.log(`Socket.IO server is running on port ${socketPort}`);
+
+
+
+
+
+// Create a new chess game
+const game = new Chess();
+
+// Get the initial position as a FEN string
+const initialFEN = game.fen();
+
+// Convert FEN string to position object
+const position = fenToPosition(initialFEN);
+
+// Helper function to convert FEN string to position object
+function fenToPosition(fen) {
+  const [board, turn, castling, enPassant, halfMoves, fullMoves] = fen.split(' ');
+
+  const rows = board.split('/');
+  const position = {};
+
+  for (let i = 0; i < 8; i++) {
+    let row = rows[i];
+    let column = 0;
+
+    for (let j = 0; j < row.length; j++) {
+      const char = row.charAt(j);
+
+      if (isNaN(char)) {
+        position[`${String.fromCharCode(97 + column)}${8 - i}`] = char;
+        column++;
+      } else {
+        column += parseInt(char);
+      }
+    }
+  }
+
+  return position;
+}
+
+// Log the position object
+console.log(position);
